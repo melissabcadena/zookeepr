@@ -13,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
+app.use(express.static('public'));
+
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
     // save the animalAArray as filteredResults here
@@ -112,6 +114,21 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
 
     res.json(animal);
+});
+
+// route to index.html file 
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'))
+});
+
+// route to public/animals file
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+})
+
+// route for zookeepers page
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
 });
 
 app.listen(PORT, () => {
